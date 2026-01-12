@@ -1,0 +1,51 @@
+## The electrical circuit
+Here is the complete electrical diagram of our system. It consists of a gas-type switch, a variable resistor using an MCP41100 digital potentiometer, another variable resistor using an MCP41100 digital potentiometer, an Arduino Uno, a gas sensor, and a LoRa module.
+
+<img width="898" height="639" alt="Capture d’écran 2026-01-12 à 15 12 48" src="https://github.com/user-attachments/assets/4641388e-d5ae-4278-addf-9eb1d2fb03ea" />
+
+The fabricated gas sensor exhibits a very high resistance that varies depending on the type and presence of gas. Its resistance is on the order of gigohms, resulting in an extremely low current of the order of nanoamperes flowing into the ADC. Since an Arduino uses a 10-bit ADC, the sensor output signal must be amplified. To address this, we designed an amplification circuit based on an operational amplifier and validated it through LTSpice simulations.
+Below is the LTSpice circuit:
+
+<img width="1327" height="640" alt="Capture d’écran 2026-01-12 à 20 20 12" src="https://github.com/user-attachments/assets/dc5e3d08-115b-4b55-a73e-b28af8fe141e" />
+
+The circuit includes three filters with different cutoff frequencies to reduce noise and shape the signal:
+- A low-frequency filter to suppress sensor noise,
+- A notch filter to attenuate 50 Hz power-line interference,
+- An anti-aliasing filter to prevent distortion during ADC sampling.
+
+Transient simulations confirmed correct amplifier operation, with a gain of 101, matching theoretical calculations. Frequency analysis using Bode diagrams showed an overall gain of 140 dB, consistent with the expected transfer function. FFT analysis further demonstrated effective noise reduction, particularly at 50 Hz, while highlighting the trade-off between noise suppression and signal distortion when filter capacitance is increased excessively.
+Overall, the simulations validate the amplifier design and confirm its suitability for accurately measuring low-current gas sensor signals using low-cost data acquisition systems.
+
+## PCB Design
+To bring all the components of our sensor system together, we designed a dedicated Printed Circuit Board (PCB). This board combines all stages of the system into a unified and compact design, providing an optimized layout, enhanced reliability, and efficient operation. The detailed PCB design is shown in the figure below.
+
+<img width="826" height="640" alt="Capture d’écran 2026-01-12 à 18 04 18" src="https://github.com/user-attachments/assets/ffb5eea5-b38a-4521-b80d-9d209f047af2" />
+
+
+Below, there is a 3D view of the PCB after conception.
+
+- Front view:
+
+
+<img width="663" height="546" alt="Capture d’écran 2026-01-12 à 21 26 13" src="https://github.com/user-attachments/assets/df476da4-d708-4063-9240-0626eb19e556" />
+
+
+
+- Back view:
+
+
+<img width="553" height="450" alt="Capture d’écran 2026-01-12 à 15 15 34" src="https://github.com/user-attachments/assets/465fe547-3c73-434c-8242-a0a6c7a9204b" />
+
+
+## MIT App Inventor
+
+
+
+The MIT App Inventor application is designed to interface with the Arduino, allowing users to control the system and monitor sensor data in real time.
+
+
+  <img width="470" height="727" alt="Capture d’écran 2026-01-12 à 21 18 51" src="https://github.com/user-attachments/assets/fc303862-ac95-426f-89d9-8ac7eebc0baa" />
+  
+
+
+This MIT App Inventor application functions as a Bluetooth remote control for an Arduino system. It allows the user to first connect to a Bluetooth module (such as HC-05) through a list of available devices, and then send commands either by pressing buttons or using voice commands. The "LED ON" button sends the number 1 to turn on the LED, the "LED OFF" button sends 2 to turn it off, and if the voice recognition detects the word "blink," the app sends 3 to make the LED blink. At the same time, the application can receive and display messages sent by the Arduino via Bluetooth.
