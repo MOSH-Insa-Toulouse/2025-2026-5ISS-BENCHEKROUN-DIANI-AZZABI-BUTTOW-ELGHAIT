@@ -27,7 +27,7 @@ Below, there is a 3D view of the PCB after conception.
 - Front view:
 
 
-<img width="663" height="546" alt="Capture d’écran 2026-01-12 à 21 26 13" src="https://github.com/user-attachments/assets/df476da4-d708-4063-9240-0626eb19e556" />
+<img width="553" height="450" alt="Capture d’écran 2026-01-12 à 21 26 13" src="https://github.com/user-attachments/assets/df476da4-d708-4063-9240-0626eb19e556" />
 
 
 
