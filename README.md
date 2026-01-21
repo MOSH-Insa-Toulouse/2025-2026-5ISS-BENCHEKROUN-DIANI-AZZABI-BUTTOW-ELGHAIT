@@ -30,6 +30,29 @@ Finally, the sensor is packaged using a JEDEC TO-5 metal can package with 10 pin
 
 ![Packaged gas sensor](gas_sensor.jpeg)
 
+## Sensor Characterization
+
+After fabricating the sensor, we characterized two key parts of the device: the integrated thermistor (used to estimate temperature) and the MOx gas-sensing resistance (WO₃). The goal is to obtain practical electrical values that can later be used for conditioning, calibration, and integration into electronics.
+
+### 2.1 Thermistor
+
+The thermistor (called R_alu) is treated as a PTC component, meaning its resistance increases with temperature. Since it was not fully characterized, we assumed an approximate coefficient of 1 Ω per °C, based on a similarity with a Pt100-like behavior. A proper method would be to heat it while comparing with a reference thermometer, but this was not done, and the approximation was considered "good enough" for operating the MOx sensor.
+
+To find the room-temperature reference resistance, we measured an I-V curve using a waveform generator and an instrumentation setup, then applied Ohm's law. The nominal resistance obtained was about 86 Ω at ambient temperature (around 21°C). We also observed non-linearity at higher voltage, likely caused by self-heating of the thermistor.
+
+### 2.2 MOx Resistance
+
+**Nominal resistance:** The WO₃ sensing layer has a very high resistance in its reduced form, in the GΩ range, which makes measurement difficult due to the need for a precise current source and because thermal noise becomes significant. As a result, the reported value is a rough estimate, but we obtained a typical resistance around 16 GΩ.
+
+**Sensitivity to ethanol:** We performed an experiment to evaluate the sensor response to ethanol vapor. First, the sensor temperature is increased (around 550 K) to evaporate moisture and reduce resistance. Then the test is performed in two phases: a regeneration phase under dry air (to "regenerate" the sensor surface), followed by a detection phase under an ethanol/air mixture (about 1000 ppm). During exposure, the resistance drops with an exponential-like behavior.
+
+From this test, we extracted several performance indicators, including:
+- **Relative resistance change:** approximately 64% for our test conditions
+- **Sensitivity coefficient:** based on (R_air - R_eth)/R_air
+- **Response time:** about 88 seconds to reach 10% of the final value
+- **Sensitivity:** 85,000 Ω/ppm
+- **Detection limit:** approximately 38.3 ppm, based on the Arduino ADC resolution (10-bit), amplifier gain, and the measured sensitivity
+
 ## Arduino Code
 
 The system was implemented using Arduino Uno with the following sensors:
