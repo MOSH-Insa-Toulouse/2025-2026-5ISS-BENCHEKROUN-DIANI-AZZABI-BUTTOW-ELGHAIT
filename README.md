@@ -1,3 +1,69 @@
+# Sensor de Gás - Projeto IoT
+
+Este projeto apresenta o desenvolvimento de um sensor de gás completo, desde a fabricação de nanopartículas em laboratório até a implementação de um sistema IoT com Arduino e Node-RED.
+
+## Fabricação de Nanopartículas em Laboratório
+
+Neste projeto, desenvolvemos nosso próprio sensor de gás através da fabricação de nanopartículas em laboratório. O processo de fabricação envolve a síntese de materiais semicondutores sensíveis a gases, que são depositados sobre um substrato para criar o elemento sensor.
+
+<!-- Adicionar foto 1: Processo de fabricação das nanopartículas -->
+<!-- ![Fabricação de Nanopartículas 1](imagem1.png) -->
+
+<!-- Adicionar foto 2: Sensor de gás fabricado -->
+<!-- ![Sensor de Gás Fabricado 2](imagem2.png) -->
+
+As nanopartículas fabricadas apresentam alta sensibilidade a diferentes tipos de gases, permitindo a detecção precisa através da variação de resistência elétrica quando expostas a ambientes gasosos.
+
+## Código Arduino
+
+O sistema foi implementado utilizando Arduino Uno com os seguintes sensores:
+- **Sensor de temperatura e umidade** - para monitoramento ambiental
+- **Sensor de gás Grove** - sensor comercial de referência
+- **Nosso sensor de gás** - sensor fabricado com nanopartículas
+
+O código Arduino (`OpenSource_V2.4.ino`) realiza:
+- Leitura do sensor de gás no pino A0
+- Comunicação LoRaWAN através do The Things Network (TTN)
+- Display OLED para visualização local dos dados
+- Sistema de alerta com LED quando valores de gás excedem o limiar
+
+<!-- Adicionar foto: Montagem com Arduino -->
+<!-- ![Montagem Arduino com Sensores](montagem_arduino.png) -->
+
+**Principais características do código:**
+```cpp
+- Leitura analógica do sensor de gás (A0)
+- Threshold de alerta: GAZ_VALUE > 100
+- Transmissão de dados via LoRaWAN a cada 10 segundos
+- Display OLED para feedback visual
+- LED de alerta para detecção de gás
+```
+
+## Node-RED
+
+O sistema Node-RED foi implementado para receber e processar os dados dos sensores através do protocolo MQTT, conectando-se ao ChirpStack/The Things Network.
+
+### Fluxo Node-RED
+
+O fluxo implementado realiza:
+- Subscrição ao tópico MQTT do sensor LoRaWAN
+- Decodificação dos dados base64 recebidos
+- Processamento e conversão dos valores dos sensores
+- Visualização em dashboard em tempo real
+
+![Fluxo Node-RED](Node-RED/Flux.png)
+
+### Dashboard
+
+O dashboard Node-RED permite visualizar em tempo real:
+- Valores do sensor de gás
+- Histórico de leituras
+- Alertas de detecção
+
+![Dashboard Node-RED](Node-RED/Dashboard.png)
+
+O arquivo `flows.json` contém a configuração completa do fluxo Node-RED, que pode ser importado diretamente no Node-RED.
+
 ## The electrical circuit
 Here is the complete electrical diagram of our system. It consists of a gas-type switch, a variable resistor using an MCP41100 digital potentiometer, another variable resistor using an MCP41100 digital potentiometer, an Arduino Uno, a gas sensor, and a LoRa module.
 
