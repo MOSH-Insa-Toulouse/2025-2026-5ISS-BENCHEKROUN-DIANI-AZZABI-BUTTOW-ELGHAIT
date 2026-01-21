@@ -31,13 +31,13 @@ The active sensing material is tungsten trioxide (WO₃). The synthesis process 
 
 To place the WO₃ nanoparticles onto the interdigitated electrodes, dielectrophoresis is used: a small drop of nanoparticle solution is deposited on the chip, and an AC voltage is applied to align the particles between the electrodes. After rinsing and drying, the chip is checked under an optical microscope to confirm a uniform and well-aligned active layer.
 
-![Nanoscope view of the sensor](nanoscope.bmp)
+![Nanoscope view of the sensor](Datasheet/nanoscope.bmp)
 
 ### 1.4 Packaging
 
 Finally, the sensor is packaged using a JEDEC TO-5 metal can package with 10 pins. The chip is placed on a glass support to provide electrical isolation, and wire bonding is used to connect the chip pads to the package pins. This creates a robust component that can be connected to external electronics for characterization and integration.
 
-![Packaged gas sensor](gas_sensor.jpeg)
+![Packaged gas sensor](Datasheet/gas_sensor.jpeg)
 
 ## Sensor Characterization
 
