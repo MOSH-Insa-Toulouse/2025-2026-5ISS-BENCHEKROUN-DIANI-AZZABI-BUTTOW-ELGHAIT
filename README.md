@@ -93,28 +93,73 @@ The Arduino code (`OpenSource_V2.4.ino`) performs:
 
 ## Node-RED
 
-The Node-RED system was implemented to receive and process sensor data through the MQTT protocol, connecting to ChirpStack/The Things Network.
+The Node-RED system was implemented to receive and process sensor data through the MQTT protocol, connecting to ChirpStack/The Things Network. This provides a visual programming interface for data flow management and real-time monitoring of the gas sensor system.
 
-### Node-RED Flow
+### 4.1 System Architecture
 
-The implemented flow performs:
-- Subscription to the LoRaWAN sensor MQTT topic
-- Decoding of received base64 data
-- Processing and conversion of sensor values
-- Real-time dashboard visualization
+The Node-RED implementation creates a complete IoT data pipeline that:
+- Subscribes to MQTT topics from the LoRaWAN network server (ChirpStack/TTN)
+- Processes incoming sensor data in real-time
+- Provides visual dashboards for monitoring
+- Implements alert logic based on sensor thresholds
+- Stores historical data for analysis
+
+### 4.2 MQTT Integration
+
+The system uses an MQTT input node configured to subscribe to the application-specific topic:
+- **Topic pattern**: `application/[app-id]/device/+/event/up`
+- **QoS Level**: 2 (exactly once delivery)
+- **Protocol**: MQTT over ChirpStack/The Things Network
+
+This ensures reliable reception of all uplink messages from the deployed gas sensors in the field.
+
+### 4.3 Data Processing Flow
+
+The implemented flow performs several processing stages:
+
+1. **Message Filtering**: Filters only uplink events (`/event/up`) to ignore other event types
+2. **Base64 Decoding**: Extracts and decodes the base64-encoded payload from the LoRaWAN message
+3. **Payload Parsing**: Interprets the binary data structure:
+   - Byte 0: Sensor ID (identifies which sensor sent the data)
+   - Bytes 1-2: 16-bit big-endian integer containing the raw sensor value
+   - Conversion: Divides raw value by 100 to obtain the actual measurement
+4. **Alert Logic**: Implements threshold-based alerting:
+   - Normal operation: value ≤ 80
+   - Alert state: value > 80 (triggers "Help" notification)
+5. **Data Distribution**: Routes processed data to multiple outputs (debug console, dashboard widgets, data storage)
+
+### 4.4 Node-RED Flow
+
+The visual flow includes:
+- MQTT subscriber node for data ingestion
+- Function nodes for data transformation and business logic
+- Debug nodes for development and troubleshooting
+- Dashboard UI nodes for real-time visualization
+- Chart nodes for historical trend display
 
 ![Node-RED Flow](Node-RED/Flux.png)
 
-### Dashboard
+### 4.5 Dashboard
 
-The Node-RED dashboard allows real-time visualization of:
-- Gas sensor values
-- Reading history
-- Detection alerts
+The Node-RED dashboard provides a web-based interface for real-time monitoring with:
+
+**Display Elements:**
+- **Current sensor value**: Real-time display of gas concentration readings
+- **Alert status**: Visual indicator showing "Normal" or "Help" states
+- **Historical chart**: Time-series graph showing sensor readings over time
+- **Sensor identification**: Displays which sensor (by ID) is reporting
+
+**Features:**
+- Responsive web interface accessible from any device
+- Automatic updates as new data arrives
+- Color-coded alerts for quick status assessment
+- Historical data visualization for trend analysis
 
 ![Node-RED Dashboard](Node-RED/Dashboard.png)
 
-The `flows.json` file contains the complete Node-RED flow configuration, which can be imported directly into Node-RED.
+### 4.6 Implementation Details
+
+The complete flow configuration is available in the `flows.json` file, which can be imported directly into Node-RED for deployment. The implementation uses standard Node-RED nodes along with the dashboard palette for UI components, making it easy to customize and extend for additional features or sensors.
 
 ## The electrical circuit
 Here is the complete electrical diagram of our system. It consists of a gas-type switch, a variable resistor using an MCP41100 digital potentiometer, another variable resistor using an MCP41100 digital potentiometer, an Arduino Uno, a gas sensor, and a LoRa module.
