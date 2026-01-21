@@ -53,21 +53,36 @@ From this test, we extracted several performance indicators, including:
 - **Sensitivity:** 85,000 Ω/ppm
 - **Detection limit:** approximately 38.3 ppm, based on the Arduino ADC resolution (10-bit), amplifier gain, and the measured sensitivity
 
-## Arduino Code
+## Integration into a Smart Device
+
+This chapter focuses on how we integrated the MOx gas sensor into a smart embedded device using an Arduino as the main controller. The objective was to build a system able to read the sensor through an adapted analog front-end, and to prepare the hardware for a future connected version.
+
+### 3.1 Arduino-based Prototype (Hardware Concept)
+
+Because the final PCB/shield could not be manufactured in time, we used a prototype setup where an Arduino would interface with the gas sensor through signal conditioning. We temporarily relied on a commercial Grove gas sensor to keep the integration moving while the custom MOx board was still under development.
 
 The system was implemented using Arduino Uno with the following sensors:
 - **Temperature and humidity sensor** - for environmental monitoring
 - **Grove gas sensor** - commercial reference sensor
-- **Our gas sensor** - sensor fabricated with nanoparticles
+- **Our MOx gas sensor** - sensor fabricated with WO₃ nanoparticles
+
+### 3.2 Signal Conditioning for the MOx Sensor
+
+Since the WO₃ sensing element can reach very high resistance (GΩ range), the sensor cannot be connected directly to the Arduino ADC. For this reason, we designed a dedicated conditioning stage (based on a transimpedance/very high gain approach) that converts the sensor behavior into a measurable voltage range for the Arduino. We validated this front-end using LTSpice simulations, and we highlight the main challenge: at such high impedance, noise becomes significant, which can limit measurement quality.
+
+### 3.3 Filters and Noise Considerations
+
+To improve stability, we included RC filtering at different points (input/output/feedback and power supply). The theoretical and simulated cut-off frequencies were designed to reduce low-frequency drift and attenuate noise sources such as mains-related interference (50 Hz) and EMC disturbances.
+
+![Arduino prototype with sensors](open_source.jpg)
+
+### 3.4 Arduino Code Implementation
 
 The Arduino code (`OpenSource_V2.4.ino`) performs:
 - Gas sensor reading on pin A0
 - LoRaWAN communication through The Things Network (TTN)
 - OLED display for local data visualization
 - LED alert system when gas values exceed the threshold
-
-<!-- TODO: Add photo of the Arduino assembly showing the sensors -->
-<!-- Example: ![Arduino Assembly with Sensors](images/arduino_assembly_with_sensors.png) -->
 
 **Main code features:**
 - Analog reading of the gas sensor (A0)
