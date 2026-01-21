@@ -1,12 +1,13 @@
 ## The electrical circuit
 Here is the complete electrical diagram of our system. It consists of a gas-type switch, a variable resistor using an MCP41100 digital potentiometer, another variable resistor using an MCP41100 digital potentiometer, an Arduino Uno, a gas sensor, and a LoRa module.
 
-<img width="898" height="639" alt="Capture d’écran 2026-01-12 à 15 12 48" src="https://github.com/user-attachments/assets/4641388e-d5ae-4278-addf-9eb1d2fb03ea" />
+<img width="1069" height="761" alt="Capture d’écran 2026-01-21 à 14 50 42" src="https://github.com/user-attachments/assets/f9749b54-5b4b-4f5f-adf4-a1123967b55f" />
+
 
 The fabricated gas sensor exhibits a very high resistance that varies depending on the type and presence of gas. Its resistance is on the order of gigohms, resulting in an extremely low current of the order of nanoamperes flowing into the ADC. Since an Arduino uses a 10-bit ADC, the sensor output signal must be amplified. To address this, we designed an amplification circuit based on an operational amplifier and validated it through LTSpice simulations.
 Below is the LTSpice circuit:
 
-<img width="1327" height="640" alt="Capture d’écran 2026-01-12 à 20 20 12" src="https://github.com/user-attachments/assets/dc5e3d08-115b-4b55-a73e-b28af8fe141e" />
+<img width="1205" height="579" alt="Capture d’écran 2026-01-21 à 14 50 59" src="https://github.com/user-attachments/assets/da387e7a-4670-471a-a106-f1b9d512d2ef" />
 
 The circuit includes three filters with different cutoff frequencies to reduce noise and shape the signal:
 - A low-frequency filter to suppress sensor noise,
@@ -19,7 +20,8 @@ Overall, the simulations validate the amplifier design and confirm its suitabili
 ## PCB Design
 To bring all the components of our sensor system together, we designed a dedicated Printed Circuit Board (PCB). This board combines all stages of the system into a unified and compact design, providing an optimized layout, enhanced reliability, and efficient operation. The detailed PCB design is shown in the figure below.
 
-<img width="826" height="640" alt="Capture d’écran 2026-01-12 à 18 04 18" src="https://github.com/user-attachments/assets/ffb5eea5-b38a-4521-b80d-9d209f047af2" />
+<img width="821" height="632" alt="Capture d’écran 2026-01-21 à 14 51 16" src="https://github.com/user-attachments/assets/aff53977-cc37-4a82-8851-a0ac24ff60ac" />
+
 
 
 Below, there is a 3D view of the PCB after conception.
@@ -27,14 +29,16 @@ Below, there is a 3D view of the PCB after conception.
 - Front view:
 
 
-<img width="553" height="450" alt="Capture d’écran 2026-01-12 à 21 26 13" src="https://github.com/user-attachments/assets/df476da4-d708-4063-9240-0626eb19e556" />
+<img width="553" height="449" alt="Capture d’écran 2026-01-21 à 14 51 26" src="https://github.com/user-attachments/assets/fcee5305-a097-4b84-93d8-64f9f1c78505" />
+
 
 
 
 - Back view:
 
 
-<img width="553" height="450" alt="Capture d’écran 2026-01-12 à 15 15 34" src="https://github.com/user-attachments/assets/465fe547-3c73-434c-8242-a0a6c7a9204b" />
+<img width="553" height="449" alt="Capture d’écran 2026-01-21 à 14 51 32" src="https://github.com/user-attachments/assets/0dcf478f-0281-4cf1-b078-9a62e4b0c805" />
+
 
 
 ## MIT App Inventor
@@ -44,7 +48,8 @@ Below, there is a 3D view of the PCB after conception.
 The MIT App Inventor application is designed to interface with the Arduino, allowing users to control the system and monitor sensor data in real time.
 
 
-  <img width="470" height="727" alt="Capture d’écran 2026-01-12 à 21 18 51" src="https://github.com/user-attachments/assets/fc303862-ac95-426f-89d9-8ac7eebc0baa" />
+  <img width="498" height="805" alt="Capture d’écran 2026-01-21 à 14 52 11" src="https://github.com/user-attachments/assets/2b66d18e-0d05-4d7a-bd6e-26b859578ae6" />
+
   
 
 
