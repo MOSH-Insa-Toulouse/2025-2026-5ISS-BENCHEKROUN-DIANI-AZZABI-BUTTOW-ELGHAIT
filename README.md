@@ -2,17 +2,33 @@
 
 This project presents the development of a complete gas sensor, from the fabrication of nanoparticles in the laboratory to the implementation of an IoT system with Arduino and Node-RED.
 
-## Nanoparticle Manufacturing in Laboratory
+## MOx Sensor Manufacturing
 
-In this project, we developed our own gas sensor through the fabrication of nanoparticles in the laboratory. The manufacturing process involves the synthesis of gas-sensitive semiconductor materials, which are deposited on a substrate to create the sensor element.
+During a week at the AIME laboratory of INSA Toulouse, we fabricated our own MOx (Metal Oxide) gas sensor. This chapter describes how the MOx gas sensor was fabricated, from the micro-structure on the chip to the final packaged component ready for tests. The main goal is to build a sensor with interdigitated electrodes and a metal-oxide active layer (WO₃), and to make sure it can be electrically connected and handled safely during measurements.
 
-<!-- TODO: Add photo 1 of the nanoparticle fabrication process -->
-<!-- Example: ![Nanoparticle Fabrication 1](images/nanoparticle_fabrication_1.png) -->
+### 1.1 MOx Sensor Architecture
 
-<!-- TODO: Add photo 2 of the fabricated gas sensor -->
-<!-- Example: ![Fabricated Gas Sensor 2](images/gas_sensor_fabricated_2.png) -->
+The sensor is based on a small chip that includes a heating element (to control the operating temperature) and metal electrodes where the metal-oxide material will be deposited. The device is designed so that the gas-sensitive layer can change its resistance depending on the surrounding atmosphere.
 
-The fabricated nanoparticles exhibit high sensitivity to different types of gases, allowing precise detection through electrical resistance variation when exposed to gaseous environments.
+### 1.2 Photolithography
+
+First, the polysilicon heating element (used to heat the MOx resistor, lower its resistance, and remove water residues) was already manufactured in the AIME clean room by professionals. It was obtained by depositing a polysilicon layer and then patterning it using a photoresist mask activated by UV light.
+
+Then, metallization was performed by depositing a thin aluminum layer (about 500 nm) to create electrodes and electrical contacts. After that, metal etching defined the final electrode patterns by removing unwanted aluminum. This step used a resist coating, UV exposure with a mask, development, annealing cycles, and a chemical etching bath, with microscope inspections to verify quality after each stage.
+
+### 1.3 Metal Oxide (MOx) Synthesis
+
+The active sensing material is tungsten trioxide (WO₃). The synthesis process consists of two steps: first, seed preparation (chemical mixing and centrifugation to collect the precipitate), and second, nanowire growth using a hydrothermal process at high temperature, followed by rinsing and storage. This method aims to produce homogeneous nanostructures suitable for gas sensing.
+
+To place the WO₃ nanoparticles onto the interdigitated electrodes, dielectrophoresis is used: a small drop of nanoparticle solution is deposited on the chip, and an AC voltage is applied to align the particles between the electrodes. After rinsing and drying, the chip is checked under an optical microscope to confirm a uniform and well-aligned active layer.
+
+![Nanoscope view of the sensor](nanoscope.bmp)
+
+### 1.4 Packaging
+
+Finally, the sensor is packaged using a JEDEC TO-5 metal can package with 10 pins. The chip is placed on a glass support to provide electrical isolation, and wire bonding is used to connect the chip pads to the package pins. This creates a robust component that can be connected to external electronics for characterization and integration.
+
+![Packaged gas sensor](gas_sensor.jpeg)
 
 ## Arduino Code
 
