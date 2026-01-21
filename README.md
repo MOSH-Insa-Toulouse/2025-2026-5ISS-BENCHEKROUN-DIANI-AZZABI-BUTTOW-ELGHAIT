@@ -6,11 +6,11 @@ Este projeto apresenta o desenvolvimento de um sensor de gás completo, desde a 
 
 Neste projeto, desenvolvemos nosso próprio sensor de gás através da fabricação de nanopartículas em laboratório. O processo de fabricação envolve a síntese de materiais semicondutores sensíveis a gases, que são depositados sobre um substrato para criar o elemento sensor.
 
-<!-- Adicionar foto 1: Processo de fabricação das nanopartículas -->
-<!-- ![Fabricação de Nanopartículas 1](imagem1.png) -->
+<!-- TODO: Adicionar foto 1 do processo de fabricação das nanopartículas -->
+<!-- Exemplo: ![Fabricação de Nanopartículas 1](images/nanoparticle_fabrication_1.png) -->
 
-<!-- Adicionar foto 2: Sensor de gás fabricado -->
-<!-- ![Sensor de Gás Fabricado 2](imagem2.png) -->
+<!-- TODO: Adicionar foto 2 do sensor de gás fabricado -->
+<!-- Exemplo: ![Sensor de Gás Fabricado 2](images/gas_sensor_fabricated_2.png) -->
 
 As nanopartículas fabricadas apresentam alta sensibilidade a diferentes tipos de gases, permitindo a detecção precisa através da variação de resistência elétrica quando expostas a ambientes gasosos.
 
@@ -27,17 +27,15 @@ O código Arduino (`OpenSource_V2.4.ino`) realiza:
 - Display OLED para visualização local dos dados
 - Sistema de alerta com LED quando valores de gás excedem o limiar
 
-<!-- Adicionar foto: Montagem com Arduino -->
-<!-- ![Montagem Arduino com Sensores](montagem_arduino.png) -->
+<!-- TODO: Adicionar foto da montagem com Arduino mostrando os sensores -->
+<!-- Exemplo: ![Montagem Arduino com Sensores](images/arduino_assembly_with_sensors.png) -->
 
 **Principais características do código:**
-```cpp
 - Leitura analógica do sensor de gás (A0)
 - Threshold de alerta: GAZ_VALUE > 100
 - Transmissão de dados via LoRaWAN a cada 10 segundos
 - Display OLED para feedback visual
 - LED de alerta para detecção de gás
-```
 
 ## Node-RED
 
