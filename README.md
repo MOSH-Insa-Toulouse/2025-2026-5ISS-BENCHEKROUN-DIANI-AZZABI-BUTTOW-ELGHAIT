@@ -83,7 +83,7 @@ Since the WO₃ sensing element can reach very high resistance (GΩ range), the 
 
 To improve stability, we included RC filtering at different points (input/output/feedback and power supply). The theoretical and simulated cut-off frequencies were designed to reduce low-frequency drift and attenuate noise sources such as mains-related interference (50 Hz) and EMC disturbances.
 
-![Arduino prototype with sensors](open_source.jpg)
+![Arduino prototype with sensors](Arduino/open_source.jpg)
 
 ### 3.4 Arduino Code Implementation
 
