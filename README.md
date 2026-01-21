@@ -1,6 +1,6 @@
 # Gas Sensor - IoT Project
 
-This project presents the development of a complete gas sensor, from the fabrication of nanoparticles in the laboratory to the implementation of an IoT system with Arduino and Node-RED.
+This project presents the complete development of an IoT gas sensor system, encompassing the entire pipeline from chemical synthesis to cloud integration. The work includes: the chemical production of WO₃ (tungsten trioxide) nanoparticle-based gas sensors in the laboratory, comprehensive electrical characterization and datasheet development, LoRaWAN communication testing with Arduino microcontroller, Node-RED integration for real-time data visualization and monitoring, PCB system design for the complete electronic circuit, and mobile application development for user interaction. This multidisciplinary approach demonstrates a complete IoT solution from sensor fabrication to end-user interface.
 
 ## MOx Sensor Manufacturing
 
