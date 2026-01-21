@@ -1,0 +1,498 @@
+[
+    {
+        "id": "3d35441da62ff479",
+        "type": "tab",
+        "label": "Flux 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "44d227b2c9eeadc7",
+        "type": "function",
+        "z": "3d35441da62ff479",
+        "name": "function 1",
+        "func": "// Garder uniquement les uplinks\nif (!msg.topic || !msg.topic.endsWith(\"/event/up\")) return null;\n\nlet p = msg.payload;\n\n// Si payload est string JSON, parse\nif (typeof p === \"string\") p = JSON.parse(p);\n\n// ChirpStack uplink: champ base64 généralement = p.data\nconst b64 = p.data;\nif (!b64) {\n    node.warn(\"Champ 'data' absent (pas un uplink ou payload vide). Topic: \" + msg.topic);\n    return null;\n}\n\nconst buf = Buffer.from(b64, \"base64\");\n\n// On attend 3 bytes: [id][int16BE]\nif (buf.length < 3) {\n    node.warn(\"Payload trop court: \" + buf.length);\n    return null;\n}\n\nconst sensorId = buf.readUInt8(0);\nconst raw = buf.readInt16BE(1);   // 2 bytes big-endian\nconst value = raw / 100.0;\n\nmsg.payload = { sensorId, value };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 240,
+        "wires": [
+            [
+                "6df15d5f3ee58a26",
+                "bac530fd53e226cd"
+            ]
+        ]
+    },
+    {
+        "id": "596633077c589570",
+        "type": "mqtt in",
+        "z": "3d35441da62ff479",
+        "name": "",
+        "topic": "application/a54bbd1c-e754-434b-9354-a2e19034ffcc/device/+/event/up",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "863bcaa122c1dd25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "44d227b2c9eeadc7",
+                "537693da1315fd78"
+            ]
+        ]
+    },
+    {
+        "id": "bac530fd53e226cd",
+        "type": "debug",
+        "z": "3d35441da62ff479",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "6df15d5f3ee58a26",
+        "type": "function",
+        "z": "3d35441da62ff479",
+        "name": "function 2",
+        "func": "if (!msg.payload || typeof msg.payload.value !== \"number\") return null;\n\nconst sensorId = msg.payload.sensorId;\nconst value = msg.payload.value;\n\n// Exemple: alerte seulement pour le gaz (sensorId = 0)\nlet alert = \"Normal\";\nif (sensorId === 0 && value > 80) alert = \"Help\";\n\nmsg.payload = { sensorId, value, alert };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 240,
+        "wires": [
+            [
+                "8838af9ac61070fb",
+                "8d3ce29c09d67686",
+                "7fe0349e048238a9"
+            ]
+        ]
+    },
+    {
+        "id": "7fe0349e048238a9",
+        "type": "ui_text",
+        "z": "3d35441da62ff479",
+        "group": "6bff329346cb9a7a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Alert Status",
+        "format": "{{msg.payload.alert}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Impact,Impact,Charcoal,sans-serif",
+        "fontSize": "20",
+        "color": "#000000",
+        "x": 1090,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "537693da1315fd78",
+        "type": "debug",
+        "z": "3d35441da62ff479",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8838af9ac61070fb",
+        "type": "debug",
+        "z": "3d35441da62ff479",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "15fe1ae31e71459e",
+        "type": "ui_gauge",
+        "z": "3d35441da62ff479",
+        "name": "",
+        "group": "177ba049ecfb6538",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "units",
+        "format": "{{msg.payload.value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1290,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8d3ce29c09d67686",
+        "type": "switch",
+        "z": "3d35441da62ff479",
+        "name": "",
+        "property": "payload.sensorId",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1070,
+        "y": 240,
+        "wires": [
+            [
+                "9bffa2c498820e95"
+            ],
+            [
+                "6181473ac2a64af2"
+            ],
+            [
+                "15fe1ae31e71459e"
+            ]
+        ]
+    },
+    {
+        "id": "9bffa2c498820e95",
+        "type": "ui_gauge",
+        "z": "3d35441da62ff479",
+        "name": "",
+        "group": "852953171418817c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Grove Gas Level",
+        "label": "units",
+        "format": "{{msg.payload.value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1310,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "6181473ac2a64af2",
+        "type": "ui_gauge",
+        "z": "3d35441da62ff479",
+        "name": "",
+        "group": "4f695c22f56ac2f9",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Developed Gas Level",
+        "label": "units",
+        "format": "{{msg.payload.value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1320,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "54224d6201660ef5",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 1,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "4a3597900b9b9e82",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 2,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "d16c517ef18b0396",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 3,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "c1b715cad97725ee",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 4,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "3afd6b872868fc89",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 5,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "edfc7394cf4ef1ce",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 6,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "517a7f8309447ca8",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 7,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "385089aedd74e8c6",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 8,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "ea8e33df74670a63",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 9,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "04be42bd7edc36a6",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 10,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "bfd06aeda24e5a72",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 11,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "c49b763209d9132f",
+        "type": "ui_spacer",
+        "z": "3d35441da62ff479",
+        "name": "spacer",
+        "group": "",
+        "order": 12,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "863bcaa122c1dd25",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "https://srv-chirpstack.insa-toulouse.fr",
+        "port": "1883",
+        "tls": "f0059905bdbbee91",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6bff329346cb9a7a",
+        "type": "ui_group",
+        "name": "Status",
+        "tab": "0169e2480007c90e",
+        "order": 5,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "177ba049ecfb6538",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "0169e2480007c90e",
+        "order": 2,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "852953171418817c",
+        "type": "ui_group",
+        "name": "Grove Gaz",
+        "tab": "0169e2480007c90e",
+        "order": 3,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4f695c22f56ac2f9",
+        "type": "ui_group",
+        "name": "Developed Gaz",
+        "tab": "0169e2480007c90e",
+        "order": 4,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f0059905bdbbee91",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "CA_Cert.txt",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "0169e2480007c90e",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "9ec149046107bf07",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
