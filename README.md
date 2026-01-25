@@ -192,7 +192,7 @@ Overall, the simulations validate the amplifier design and confirm its suitabili
 ## PCB Design
 To bring all the components of our sensor system together, we designed a dedicated Printed Circuit Board (PCB). This board combines all stages of the system into a unified and compact design, providing an optimized layout, enhanced reliability, and efficient operation. The detailed PCB design is shown in the figure below.
 
-<img width="821" height="632" alt="Capture d’écran 2026-01-21 à 14 51 16" src="https://github.com/user-attachments/assets/aff53977-cc37-4a82-8851-a0ac24ff60ac" />
+<img width="929" height="716" alt="Capture d’écran 2026-01-25 à 10 23 23" src="https://github.com/user-attachments/assets/48afa9a3-8da2-4c1d-b849-3237ff883c4c" />
 
 
 
@@ -200,8 +200,7 @@ Below, there is a 3D view of the PCB after conception.
 
 - Front view:
 
-
-<img width="553" height="449" alt="Capture d’écran 2026-01-21 à 14 51 26" src="https://github.com/user-attachments/assets/fcee5305-a097-4b84-93d8-64f9f1c78505" />
+<img width="638" height="522" alt="Capture d’écran 2026-01-25 à 10 24 11" src="https://github.com/user-attachments/assets/77e48882-7702-4bfd-be02-5da29879f3ed" />
 
 
 
